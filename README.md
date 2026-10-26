@@ -4,18 +4,21 @@
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-blue)
 ![MuMuPlayer](https://img.shields.io/badge/MuMuPlayer-5.x-7c3aed)
 
-A one-click installer that brings **ReShade 6.8.0** and a hand-tuned **"Vivid" preset** to **Destiny Rising** running on **MuMuPlayer**, in both **DirectX** and **Vulkan** render modes.
+A one-click installer that brings **ReShade 6.8.0** and two hand-tuned presets, **Vivid Deep** and **Vivid**, to **Destiny Rising** running on **MuMuPlayer**, in both **DirectX** and **Vulkan** render modes.
 
 ReShade does not work on MuMuPlayer out of the box. The emulator renders the game in a hidden virtual-machine process, and in Vulkan mode it blocks every Vulkan layer. This installer handles all of that for you.
 
-| Before | After (Vivid preset) |
+| Before | After (Vivid) |
 |:---:|:---:|
 | ![Before](docs/before.jpg) | ![After](docs/after.jpg) |
 
 ## Features
 
 - **DirectX and Vulkan support.** Pick MuMu's "stable" (DirectX) or "high performance" (Vulkan) mode. The installer also switches MuMu's render mode for you.
-- **Vivid preset.** Deeper blue skies, cleaner haze, richer greens and pinks, more contrast and crisper detail, without a yellow cast.
+- **Two presets.**
+  - **Vivid Deep** (new in v1.1.0): deep, true blacks, anti-aliased edges and smooth band-free skies on top of the Vivid colors.
+  - **Vivid**: deeper blue skies, cleaner haze, richer greens and pinks, more contrast and crisper detail, without a yellow cast.
+- **HUD-friendly.** No bloom, so the interface doesn't glow.
 - **Before/After screenshots.** Every <kbd>PrtSc</kbd> saves the same frame with and without effects.
 - **Nothing third-party bundled.** ReShade and the shaders are downloaded from their official sources, pinned to exact versions and verified with SHA-256.
 - **Clean switching and uninstall.** Run the installer again to switch modes or remove everything. Your screenshots are kept.
@@ -29,12 +32,13 @@ ReShade does not work on MuMuPlayer out of the box. The emulator renders the gam
 
 ## Installation
 
-1. Download `DestinyRising-ReShade-MuMu-v1.0.0.zip` from the [latest release](https://github.com/KIexster/DestinyRising-ReShade-MuMu/releases/latest) and extract it.
+1. Download `DestinyRising-ReShade-MuMu-v1.1.0.zip` from the [latest release](https://github.com/KIexster/DestinyRising-ReShade-MuMu/releases/latest) and extract it.
 2. Double-click **`Install ReShade MuMu.bat`**.
 3. Check that both folders were detected. Use **Change...** if one is missing:
    - **MuMuPlayer**: the folder that contains `nx_main`, e.g. `D:\MuMuPlayer`
    - **Hypervisor**: the folder that contains `MuMuVMMHeadless.exe`, usually `C:\Program Files\MuMuVMMVbox\Hypervisor`
-4. Click **Install for DirectX** or **Install for Vulkan**.
+4. Pick a preset: **Vivid Deep** (recommended) or **Vivid** (classic).
+5. Click **Install for DirectX** or **Install for Vulkan**.
 
 ![Installer](docs/installer.png)
 
@@ -43,7 +47,21 @@ The installer closes MuMu if it is running (this can take up to 2 minutes), inst
 > [!IMPORTANT]
 > Don't change the render mode in MuMu's own settings. Run the installer again and pick the other button instead. Otherwise ReShade won't load in the new mode.
 
-## The Vivid preset
+Both presets are always installed. To switch between them, run the installer again with the other preset selected.
+
+## The presets
+
+### Vivid Deep (recommended)
+
+| Effect | What it does |
+|---|---|
+| **HQAA Lite** (lordbean) | Hybrid SMAA + FXAA anti-aliasing that smooths jagged edges on foliage, railings and thin structures. Its built-in sharpening is turned off. |
+| **Clarity** (AstrayFX) | Fine-texture local contrast (small radius), leaving bright HUD pixels alone |
+| **qUINT Lightroom** | The Vivid color grading, plus a deeper black point and darker black/shadow curves for true blacks |
+| **AMD FidelityFX CAS** | Contrast-adaptive sharpening (0.5) |
+| **Deband** | Removes color banding in skies, fog and gradients |
+
+### Vivid (classic)
 
 | Effect | What it does |
 |---|---|
@@ -51,12 +69,12 @@ The installer closes MuMu if it is running (this can take up to 2 minutes), inst
 | **qUINT Lightroom** | Per-hue grading: shifts the cyan haze toward blue and whitens it, boosts greens, blues, pinks and reds, and adds contrast and a touch of exposure, with no global warmth |
 | **AMD FidelityFX CAS** | Contrast-adaptive sharpening (0.6) |
 
-The preset file is `Vivid.ini` in the Hypervisor folder. See [`installer/data/Vivid.ini`](installer/data/Vivid.ini) for all values.
+The preset files are `VividDeep.ini` and `Vivid.ini` in the Hypervisor folder. See [`installer/data`](installer/data) for all values.
 
 ## Known limitations
 
 - **The ReShade menu (<kbd>Home</kbd>) can't be opened.** MuMu draws the game in a disabled child window that belongs to the VM process. Keyboard and mouse input never reach ReShade, so the effects work but the overlay does not.
-  - To tweak the preset, edit `Vivid.ini` and restart MuMu. ReShade only reads the preset at startup.
+  - To tweak a preset, edit `VividDeep.ini` or `Vivid.ini` and restart MuMu. ReShade only reads the preset at startup.
 - **<kbd>PrtSc</kbd> is the only key ReShade sees.** ReShade polls that one key directly; all others arrive as window messages, which ReShade never receives in MuMu. You can take about one screenshot every 5 seconds.
 - **No depth-based effects.** ReShade can't access the game's depth buffer inside the emulator, so effects like ambient occlusion, depth of field or fog won't work.
 - **MuMu updates can remove ReShade.** If the effects disappear after an update, run the installer again.
@@ -92,6 +110,8 @@ The installer registers ReShade's layer under the name `VK_LAYER_reshade_renderd
 | `CAS.fx` | [CeeJayDK/SweetFX](https://github.com/CeeJayDK/SweetFX) | `93ddf39` |
 | `qUINT_lightroom.fx`, `qUINT_common.fxh` | [martymcmodding/qUINT](https://github.com/martymcmodding/qUINT) | `98fed77` |
 | `Clarity.fx` | [BlueSkyDefender/AstrayFX](https://github.com/BlueSkyDefender/AstrayFX) | `59bae8b` |
+| `ReShadeUI.fxh`, `Deband.fx` | [crosire/reshade-shaders](https://github.com/crosire/reshade-shaders) | `fd00221` |
+| `HQAALite.fx`, `AreaTex.png`, `SearchTex.png` | [lordbean-git/HQAA](https://github.com/lordbean-git/HQAA) | `d12e748` |
 
 Every file is checked against a SHA-256 hash in [`Installer.ps1`](installer/Installer.ps1) and cached in `%LOCALAPPDATA%\ReShade\MuMu\downloads`.
 
@@ -101,7 +121,7 @@ Every file is checked against a SHA-256 hash in [`Installer.ps1`](installer/Inst
 
 | Location | Contents |
 |---|---|
-| Hypervisor folder | `reshade-shaders\`, `ReShade.ini`, `Vivid.ini`, and `dxgi.dll` (DirectX mode only) |
+| Hypervisor folder | `reshade-shaders\`, `ReShade.ini`, `VividDeep.ini`, `Vivid.ini`, and `dxgi.dll` (DirectX mode only) |
 | `%LOCALAPPDATA%\ReShade\MuMu` | Download cache, plus `ReShade64.dll` and the layer manifest (Vulkan mode only) |
 | `HKCU\SOFTWARE\Khronos\Vulkan\ImplicitLayers` | Layer registration (Vulkan mode only) |
 
@@ -126,7 +146,9 @@ This project is not affiliated with or endorsed by NetEase, Bungie, MuMuPlayer o
 - [SweetFX](https://github.com/CeeJayDK/SweetFX) by CeeJay.dk, including AMD FidelityFX CAS by Advanced Micro Devices
 - [qUINT](https://github.com/martymcmodding/qUINT) by Pascal Gilcher (Marty McFly)
 - Clarity by Ioxa, maintained in [AstrayFX](https://github.com/BlueSkyDefender/AstrayFX) by BlueSkyDefender
+- [HQAA](https://github.com/lordbean-git/HQAA) by lordbean, built on NVIDIA FXAA and SMAA by Jorge Jimenez et al.
+- Deband by Niklas Haas, ported to ReShade in [crosire/reshade-shaders](https://github.com/crosire/reshade-shaders)
 
 ## License
 
-The installer and the Vivid preset are released under the [MIT License](LICENSE). Third-party components are not included in this repository. They are downloaded from their authors at install time and remain under their own licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+The installer and the Vivid presets are released under the [MIT License](LICENSE). Third-party components are not included in this repository. They are downloaded from their authors at install time and remain under their own licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

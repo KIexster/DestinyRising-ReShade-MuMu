@@ -12,8 +12,12 @@ author's license.
 | `CAS.fx` (SweetFX) | Advanced Micro Devices; port by CeeJay.dk | https://github.com/CeeJayDK/SweetFX (`93ddf39b357f5da534ed6d34ba4ec8cc7dcfa361`) | MIT (notice in file) |
 | `qUINT_lightroom.fx`, `qUINT_common.fxh` | Pascal Gilcher (Marty McFly) | https://github.com/martymcmodding/qUINT (`98fed77b26669202027f575a6d8f590426c21ebd`) | Copyright the author; see file header and repository |
 | `Clarity.fx` | Ioxa; maintained by BlueSkyDefender | https://github.com/BlueSkyDefender/AstrayFX (`59bae8b33e34f37a8e521e666864085ccbf08535`) | Copyright the authors; see file header and repository |
+| `ReShadeUI.fxh` | crosire and contributors | https://github.com/crosire/reshade-shaders (`fd0022170615ce0d8162d219bff07232fa6dd84f`) | See repository |
+| `Deband.fx` | Niklas Haas; ReShade port in crosire/reshade-shaders | https://github.com/crosire/reshade-shaders (`fd0022170615ce0d8162d219bff07232fa6dd84f`) | MIT (notice in file) |
+| `HQAALite.fx` | lordbean; includes NVIDIA FXAA, AMD and SMAA code | https://github.com/lordbean-git/HQAA (`d12e74843399f5b85b4c28f8cd858022dfbcd165`) | Third-party parts under MIT-style notices in the file; see repository for the rest |
+| `AreaTex.png`, `SearchTex.png` | Jorge Jimenez et al. (SMAA) | https://github.com/lordbean-git/HQAA (`d12e74843399f5b85b4c28f8cd858022dfbcd165`) | SMAA license (MIT) |
 
-The Vivid preset (`Vivid.ini`) only contains parameter values for these effects and is part of this project (MIT).
+The presets (`VividDeep.ini`, `Vivid.ini`) only contain parameter values for these effects and are part of this project (MIT).
 
 ## ReShade license
 

@@ -1,6 +1,6 @@
 # Builds the release archive: dist\DestinyRising-ReShade-MuMu-v<version>.zip
 # Contains only the installer, the preset and the docs; ReShade and the shaders are downloaded at install time.
-param([string]$Version = '1.0.0')
+param([string]$Version = '1.1.0')
 
 $ErrorActionPreference = 'Stop'
 $repo = Split-Path $PSScriptRoot
@@ -13,7 +13,7 @@ if (Test-Path $stage) { Remove-Item $stage -Recurse -Force }
 New-Item -ItemType Directory -Force (Join-Path $stage 'data') | Out-Null
 Copy-Item (Join-Path $repo 'installer\Install ReShade MuMu.bat') $stage
 Copy-Item (Join-Path $repo 'installer\Installer.ps1') $stage
-Copy-Item (Join-Path $repo 'installer\data\Vivid.ini') (Join-Path $stage 'data')
+Copy-Item (Join-Path $repo 'installer\data\*.ini') (Join-Path $stage 'data')
 Copy-Item (Join-Path $repo 'README.md'), (Join-Path $repo 'LICENSE'), (Join-Path $repo 'THIRD_PARTY_NOTICES.md') $stage
 
 if (Test-Path $zip) { Remove-Item $zip -Force }
